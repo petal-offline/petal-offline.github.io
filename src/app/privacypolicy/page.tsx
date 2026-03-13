@@ -17,6 +17,8 @@ const sections = [
         list: [
             { label: "Health Data Access and Local Storage", text: "Petal is a menstrual cycle tracker and therefore accesses and processes Health Data (including cycle dates, symptoms, and personal notes) that you input into the app." },
             { label: "How this data is used and handled", text: "All Health Data is stored 100% locally and offline on your personal device to provide you with cycle predictions and tracking features. We do not transmit, collect, harvest, or share your Health Data with any external servers, cloud services, or third parties." },
+            { label: "No Personal Data", text: "We do not ask for your name, email, phone number, or social media login." },
+            { label: "No Device Data", text: "We do not collect your IP address, device ID, or location." },
         ],
     },
     {
