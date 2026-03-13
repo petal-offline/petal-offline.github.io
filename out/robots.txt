@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://petal-offline.github.io/sitemap.xml
