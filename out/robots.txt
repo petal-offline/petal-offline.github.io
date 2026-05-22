@@ -1,4 +1,4 @@
 User-Agent: *
 Allow: /
 
-Sitemap: https://petal-offline.github.io/sitemap.xml
+Sitemap: https://petalchan.com/sitemap.xml

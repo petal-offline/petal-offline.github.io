@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.slyayush.petal",
+      "sha256_cert_fingerprints": [
+        "15:7B:8E:53:C9:5C:E9:F8:CE:E4:11:90:80:1F:60:AA:C3:72:67:C7:56:54:D5:7F:83:E3:56:F8:A1:0D:94:81"
+      ]
+    }
+  }
+]
