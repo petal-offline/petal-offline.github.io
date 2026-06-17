@@ -204,7 +204,9 @@ export default function ReviewsPage() {
           What people are saying
         </h1>
         <p className="text-zinc-500 text-lg">
-          Real reviews from Google Play, App Store, and Reddit — all in one place.
+          Real reviews from Google Play, App Store, and Reddit. See why users trust{" "}
+          <Link href="/" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">Petal Chan</Link>{" "}
+          for private cycle tracking.
         </p>
       </header>
 
@@ -238,7 +240,7 @@ export default function ReviewsPage() {
 
       {/* CTA */}
       <footer className="text-center py-16 px-4">
-        <p className="text-zinc-500 text-sm mb-5">Ready to join them?</p>
+        <p className="text-zinc-500 text-sm mb-5">Ready to join them? Learn about our <Link href="/privacypolicy/" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">privacy-first approach</Link>.</p>
         <div className="flex flex-wrap justify-center gap-3">
           <a href="https://play.google.com/store/apps/details?id=com.slyayush.petal" target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-2 px-5 py-3 bg-[#E55B81] text-white font-semibold rounded-xl hover:bg-[#d44d72] transition-colors shadow-sm">
@@ -249,6 +251,7 @@ export default function ReviewsPage() {
             <Image src="/apple.png" alt="" width={16} height={16} /> App Store
           </a>
         </div>
+        <p className="text-zinc-400 text-sm mt-6">Have questions? Check out our <Link href="/#faq" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">FAQ</Link>.</p>
       </footer>
     </div>
   );

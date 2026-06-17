@@ -97,6 +97,7 @@ export default function PrivacyPolicyPage() {
             </nav>
 
             {/* ── Hero ─────────────────────────────────────────────────── */}
+            <main>
             <div className="relative z-10 max-w-3xl mx-auto px-6 pt-16 pb-12 text-center">
                 {/* Confetti canvas */}
                 <Confetti
@@ -149,6 +150,18 @@ export default function PrivacyPolicyPage() {
                                 </p>
                             )}
 
+                            {section.title.startsWith("2.") && (
+                                <p className="text-zinc-500 text-sm leading-relaxed">
+                                    Discover all the <Link href="/#features" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">features Petal Chan offers</Link> — all running locally on your device.
+                                </p>
+                            )}
+
+                            {section.title.startsWith("6.") && (
+                                <p className="text-zinc-500 text-sm leading-relaxed mt-2">
+                                    See what users say about the value of Chan+ in our <Link href="/reviews/" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">reviews</Link>.
+                                </p>
+                            )}
+
                             {section.list && (
                                 <ul className="space-y-2.5 mt-2">
                                     {section.list.map((item, j) => (
@@ -187,6 +200,7 @@ export default function PrivacyPolicyPage() {
                 {/* Footer */}
                 <div className="mt-12 pt-8 border-t border-zinc-200/60 text-center">
                     <p className="text-zinc-400 text-sm">© 2026 Petal Chan. All rights reserved.</p>
+                    <p className="text-zinc-500 text-sm mt-4">Still have questions? Visit our <Link href="/#faq" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">FAQ</Link> for answers.</p>
                     <Link
                         href="/"
                         className="inline-flex items-center gap-2 mt-4 text-sm text-zinc-500 hover:text-pink-400 transition-colors"
@@ -195,6 +209,7 @@ export default function PrivacyPolicyPage() {
                     </Link>
                 </div>
             </div>
+            </main>
         </div>
     );
 }

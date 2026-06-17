@@ -4,7 +4,7 @@ import Bucket from "@/components/ui/bucket";
 
 export function FeaturesSection() {
   return (
-    <section className="relative w-full py-16 md:py-24">
+    <section id="features" aria-label="Key features" className="relative w-full py-16 md:py-24">
       {/* Header */}
       <div className="text-center mb-28 md:mb-36 px-5 md:px-8">
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 leading-tight">

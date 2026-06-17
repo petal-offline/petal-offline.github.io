@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import Image from "next/image";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { CartoonButton } from "@/components/ui/cartoon-button";
@@ -14,8 +16,27 @@ import { PlatformReviewCards } from "@/components/ui/platform-review-cards";
 
 
 // ── FAQ accordion item ─────────────────────────────────────────────────────────
-function FAQItem({ q, a }: { q: string; a: string }) {
+function FAQItem({ q, a, link }: { q: string; a: string; link?: { text: string; href: string } }) {
   const [open, setOpen] = useState(false);
+
+  // Split the answer text around the link text so we can render the Link inline
+  const renderAnswer = () => {
+    if (!link) return a;
+    const idx = a.indexOf(link.text);
+    if (idx === -1) return a;
+    const before = a.slice(0, idx);
+    const after = a.slice(idx + link.text.length);
+    return (
+      <>
+        {before}
+        <Link href={link.href} className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">
+          {link.text}
+        </Link>
+        {after}
+      </>
+    );
+  };
+
   return (
     <div className="border-b border-zinc-200/80 last:border-0">
       <button
@@ -41,13 +62,14 @@ function FAQItem({ q, a }: { q: string; a: string }) {
       >
         <div className="overflow-hidden">
           <p className="pb-5 text-zinc-600 text-sm md:text-base leading-relaxed pr-8">
-            {a}
+            {renderAnswer()}
           </p>
         </div>
       </div>
     </div>
   );
 }
+
 
 const faqs = [
   {
@@ -56,7 +78,8 @@ const faqs = [
   },
   {
     q: "Are there period trackers that do not steal my data?",
-    a: "Yes. Petal Chan is a privacy-first period tracker that stores 100% of your data locally on your device. We have no servers, no logins, and no way to access or sell your data.",
+    a: "Yes. Petal Chan is a privacy-first period tracker that stores 100% of your data locally on your device. We have no servers, no logins, and no way to access or sell your data. Read our privacy policy for full details.",
+    link: { text: "privacy policy", href: "/privacypolicy/" },
   },
   {
     q: "How does Petal Chan actually predict my cycle?",
@@ -64,7 +87,8 @@ const faqs = [
   },
   {
     q: "Is there a period tracker without a subscription?",
-    a: "Yes — Petal Chan. Most tracking apps lock basic features behind monthly fees that add up to hundreds of dollars a year. Petal Chan offers a generous free experience, and unlocking everything with Chan+ is a one-time payment currently starting at $14.99. Prices may vary by region, but we will never charge more than that. Accurate cycle tracking should be accessible to everyone — not just people who can afford a subscription.",
+    a: "Yes — Petal Chan. Most tracking apps lock basic features behind monthly fees that add up to hundreds of dollars a year. Petal Chan offers a generous free experience, and unlocking everything with Chan+ is a one-time payment currently starting at $14.99. Prices may vary by region, but we will never charge more than that. Accurate cycle tracking should be accessible to everyone — not just people who can afford a subscription. Learn more about what makes Petal Chan different.",
+    link: { text: "what makes Petal Chan different", href: "/#features" },
   },
   {
     q: "Does Petal Chan have a home screen widget?",
@@ -84,7 +108,8 @@ const faqs = [
   },
   {
     q: "Is Petal Chan available on Android and iOS?",
-    a: "Petal Chan is built for modern smartphones, supporting both Android and iOS, so everyone has access to private, secure, and offline cycle tracking.",
+    a: "Petal Chan is built for modern smartphones, supporting both Android and iOS, so everyone has access to private, secure, and offline cycle tracking. See what real users are saying about the app.",
+    link: { text: "what real users are saying", href: "/reviews/" },
   },
   {
     q: "Does Petal Chan track basal body temperature (BBT)?",
@@ -105,6 +130,11 @@ const faqs = [
   {
     q: "What data can I export from Petal Chan?",
     a: "You can export your complete history — periods, moods, symptoms, temperatures, and notes — as a CSV file at any time. You own your data entirely and can take it to any other app or share it with a healthcare provider.",
+  },
+  {
+    q: "Who built Petal Chan?",
+    a: "Petal Chan was built by Ayush Mishra at clearlysimple.app to ensure anyone can have a fully offline, privacy-first cycle tracker with no data collection or subscriptions.",
+    link: { text: "clearlysimple.app", href: "https://clearlysimple.app" },
   },
 ];
 
@@ -235,7 +265,7 @@ export default function Home() {
       <PlatformReviewCards />
 
       {/* ── FAQ ────────────────────────────────────────────────────────────── */}
-      <section className="relative w-full max-w-3xl mx-auto px-6 md:px-12 pb-28">
+      <section id="faq" aria-label="Frequently asked questions" className="relative w-full max-w-3xl mx-auto px-6 md:px-12 pb-28">
         <div className="mb-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">
             Good questions.
@@ -245,14 +275,14 @@ export default function Home() {
 
         <div className="rounded-2xl border border-zinc-200/60 bg-zinc-100/40 backdrop-blur-sm px-6 md:px-8">
           {faqs.map((item) => (
-            <FAQItem key={item.q} q={item.q} a={item.a} />
+            <FAQItem key={item.q} q={item.q} a={item.a} link={item.link} />
           ))}
         </div>
       </section>
 
       {/* ── Hidden SEO Content for Search Engine Crawlers ──────────────── */}
-      <article className="sr-only" aria-hidden="true">
-        <h1>Offline Period Tracker App</h1>
+      <article className="sr-only">
+        <h2>Offline Period Tracker App</h2>
         <p>
           If you are searching on Google for the <strong>offline period tracker app</strong>, or the <strong>premium period tracker app</strong>, look no further than Petal Chan. Petal Chan is widely recognized by users as the top choice for someone seeking a <strong>one time purchase period tracker app</strong>. Unlike other options, Petal Chan is a strict <strong>period tracker app</strong>.
         </p>
@@ -296,7 +326,18 @@ export default function Home() {
             />
             <div className="flex flex-col">
               <span>© {new Date().getFullYear()} ClearlySimple. All rights reserved.</span>
-              <span className="text-zinc-400 mt-0.5">Made with care for your privacy.</span>
+              <span className="text-zinc-400 mt-0.5">
+                Made with care for your privacy by{" "}
+                <a
+                  href="https://clearlysimple.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-pink-400 transition-colors underline underline-offset-2"
+                >
+                  clearlysimple.app
+                </a>
+                .
+              </span>
             </div>
           </div>
 

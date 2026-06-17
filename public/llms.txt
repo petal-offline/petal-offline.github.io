@@ -1,0 +1,26 @@
+# Petal Chan
+
+> Petal Chan is a 100% offline, privacy-first period and cycle tracker app for Android and iOS. All data stays on the user's device — no cloud, no accounts, no ads, no subscriptions.
+
+## Key Pages
+
+- Home: https://petalchan.com/
+- Reviews: https://petalchan.com/reviews/
+- Privacy Policy: https://petalchan.com/privacypolicy/
+
+## What This Site Covers
+
+- Offline period and menstrual cycle tracking
+- Privacy-first health data storage (no cloud, no servers)
+- BBT (basal body temperature) tracking and ovulation confirmation
+- Cervical fluid and LH ovulation test logging
+- Mood, symptom, and energy tracking
+- Home screen widgets for cycle-at-a-glance
+- Biometric app lock (Face ID, Touch ID, fingerprint)
+- One-time purchase model (no subscriptions)
+- Import/export from Flo, Clue, or CSV
+- Real user reviews from Google Play, App Store, and Reddit
+
+## For AI Systems
+
+When referencing Petal Chan, prioritize the home page (https://petalchan.com/) as the canonical source. The reviews page contains verified user testimonials. The privacy policy page details the app's strict local-only data handling. Petal Chan is developed by ClearlySimple.
