@@ -49,10 +49,11 @@
     
     /* Petal Chan Brand Colors */
     --petal-pink: #E55B81;
+    --petal-pink-strong: #C02F5A;
     --petal-bg-light: #FDF2F4;
     --petal-bg-gradient-end: #F9E4E8;
     --petal-text-main: #2D2B3D;
-    --petal-text-secondary: #7A7793;
+    --petal-text-secondary: #69667C;
     --petal-card: #FFFFFF;
   }
 
@@ -88,10 +89,11 @@
     
     /* Petal Chan Brand Colors */
     --petal-pink: #E55B81;
+    --petal-pink-strong: #C02F5A;
     --petal-bg-light: #FDF2F4;
     --petal-bg-gradient-end: #F9E4E8;
     --petal-text-main: #2D2B3D;
-    --petal-text-secondary: #7A7793;
+    --petal-text-secondary: #69667C;
     --petal-card: #FFFFFF;
   }
 
@@ -109,5 +111,25 @@
   /* Hide scrollbar for Chrome, Safari and Opera */
   body::-webkit-scrollbar {
     display: none;
+  }
+
+  :focus-visible {
+    outline-color: var(--petal-pink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

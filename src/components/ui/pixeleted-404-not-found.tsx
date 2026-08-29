@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { CartoonButton } from "@/components/ui/cartoon-button";
-import Link from "next/link";
+import Image from "next/image";
 import { DottedSurface } from "@/components/ui/dotted-surface";
 
 interface Error404Props {
@@ -17,7 +17,7 @@ interface Error404Props {
 export function Error404({
     postcardImage = "/mockup.png", // Using the existing app mockup
     postcardAlt = "Petal App Mockup",
-    curvedTextTop = "The 100% Offline",
+    curvedTextTop = "The Privacy-First",
     curvedTextBottom = "Period Tracker",
     heading = "(404) Looks like the page you're looking for got lost somewhere.",
     subtext = "But hey, even the unexpected detours lead somewhere.",
@@ -25,17 +25,9 @@ export function Error404({
     backButtonHref = "/",
 }: Error404Props) {
     return (
-        <div className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden">
+        <main className="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden">
             {/* Background layer */}
             <DottedSurface />
-
-            {/* Font imports */}
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            <link
-                href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap"
-                rel="stylesheet"
-            />
 
             <div className="relative z-10 flex flex-col items-center">
                 <div className="relative mb-24">
@@ -67,10 +59,12 @@ export function Error404({
                                     aria-hidden="true"
                                     className="absolute inset-0 z-0 rounded-full blur-2xl bg-pink-500/20 scale-[1.2]"
                                 />
-                                <img
+                                <Image
                                     src={postcardImage}
                                     alt={postcardAlt}
-                                    className="w-[200px] h-[280px] object-contain relative z-10 -rotate-2"
+                                    width={1866}
+                                    height={4039}
+                                    className="h-[280px] w-auto max-w-[200px] object-contain relative z-10 -rotate-2"
                                 />
                             </div>
                         </div>
@@ -110,8 +104,7 @@ export function Error404({
 
                 <div className="text-center max-w-2xl px-6">
                     <h1
-                        className="text-4xl md:text-5xl mb-6 text-balance leading-tight text-zinc-900 font-bold"
-                        style={{ fontFamily: "'Doto', sans-serif" }}
+                        className="mb-6 text-balance font-mono text-4xl font-bold leading-tight text-zinc-900 md:text-5xl"
                     >
                         {heading}
                     </h1>
@@ -119,13 +112,11 @@ export function Error404({
                         {subtext}
                     </p>
 
-                    <Link href={backButtonHref} className="inline-block group">
-                        <CartoonButton label={backButtonLabel} color="bg-zinc-200">
-                            <ArrowRight className="w-5 h-5 text-zinc-700 group-hover:text-pink-400 transition-colors" />
-                        </CartoonButton>
-                    </Link>
+                    <CartoonButton href={backButtonHref} label={backButtonLabel} color="bg-zinc-700">
+                        <ArrowRight className="w-5 h-5 text-white transition-colors" />
+                    </CartoonButton>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

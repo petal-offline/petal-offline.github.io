@@ -1,4 +1,5 @@
 User-Agent: *
 Allow: /
 
+Host: https://petalchan.com
 Sitemap: https://petalchan.com/sitemap.xml

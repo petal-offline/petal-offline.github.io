@@ -39,8 +39,8 @@ export function Globe({
     className?: string;
     config?: COBEOptions;
 }) {
-    let phi = 0;
-    let width = 0;
+    const phi = useRef(0);
+    const width = useRef(0);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const pointerInteracting = useRef<number | null>(null);
     const pointerInteractionMovement = useRef(0);
@@ -63,17 +63,17 @@ export function Globe({
 
     const onRender = useCallback(
         (state: Record<string, number>) => {
-            if (!pointerInteracting.current) phi += 0.004;
-            state.phi = phi + r;
-            state.width = width * 2;
-            state.height = width * 2;
+            if (pointerInteracting.current === null) phi.current += 0.004;
+            state.phi = phi.current + r;
+            state.width = width.current * 2;
+            state.height = width.current * 2;
         },
         [r]
     );
 
     const onResize = () => {
         if (canvasRef.current) {
-            width = canvasRef.current.offsetWidth;
+            width.current = canvasRef.current.offsetWidth;
         }
     };
 
@@ -83,8 +83,8 @@ export function Globe({
 
         const globe = createGlobe(canvasRef.current!, {
             ...config,
-            width: width * 2,
-            height: width * 2,
+            width: width.current * 2,
+            height: width.current * 2,
             onRender,
         });
 

@@ -1,5 +1,5 @@
 "use client";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
@@ -23,21 +23,23 @@ interface Chip {
 }
 
 const INITIAL_CHIPS: Chip[] = [
-  { id: 1, title: "100% Offline", description: "Your data never leaves your phone", icon: ShieldCheck },
+  { id: 1, title: "Local-first", description: "Cycle records stay in the app", icon: ShieldCheck },
   { id: 2, title: "Face ID & Touch ID", description: "Biometric privacy protection", icon: Fingerprint },
-  { id: 3, title: "BBT Tracking", description: "Confirm ovulation with temperature", icon: Thermometer },
+  { id: 3, title: "BBT Tracking", description: "Notice temperature patterns", icon: Thermometer },
   { id: 4, title: "Cervical Fluid Log", description: "Track all four fluid types", icon: Waves },
   { id: 5, title: "Mood & Symptoms", description: "Log feelings with severity ratings", icon: SmilePlus },
   { id: 6, title: "Home Screen Widget", description: "Cycle day at a glance", icon: LayoutDashboard },
-  { id: 7, title: "No Subscription", description: "One-time purchase, forever", icon: BadgeCheck },
+  { id: 7, title: "No Subscription", description: "Chan+ is one payment", icon: BadgeCheck },
   { id: 8, title: "Privacy Blur", description: "Hidden in recent apps list", icon: EyeOff },
 ];
 
 const Bucket = () => {
   const [items, setItems] = useState<Chip[]>(INITIAL_CHIPS);
   const isMobile = useIsMobile();
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (shouldReduceMotion) return;
     const interval = setInterval(() => {
       setItems((prev) => {
         const [first, ...rest] = prev;
@@ -45,7 +47,7 @@ const Bucket = () => {
       });
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center h-fit relative w-full">

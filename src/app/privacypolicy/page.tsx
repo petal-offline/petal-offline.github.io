@@ -1,215 +1,167 @@
-"use client";
-
-import { useRef, useEffect } from "react";
-import type { ConfettiRef } from "@/components/ui/confetti";
-import { Confetti } from "@/components/ui/confetti";
-import { BlurIn } from "@/components/ui/blur-in";
-import { DottedSurface } from "@/components/ui/dotted-surface";
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { DottedSurface } from "@/components/ui/dotted-surface";
+import { JsonLd } from "@/components/json-ld";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { CONTACT, SITE_URL } from "@/lib/site";
 
-// ── Policy section config ────────────────────────────────────────────────────
-const sections = [
-    {
-        title: "1. Data Accessed and Processed (Local Only)",
-        content: "To provide accurate predictions and insights, the Petal Chan app processes the following information locally on your device:",
-        list: [
-            { label: "Menstrual Cycle Data", text: "Last period start date, average cycle length, and period duration." },
-            { label: "Health & Fitness Data", text: "Common symptoms (e.g., cramps, headaches, bloating), mood, energy levels, sleep quality, stress levels, and activity levels." },
-            { label: "Personal & Medical History", text: "Age range, birth control methods, and pregnancy history (all optional)." },
-            { label: "Customization", text: "An optional display name." },
-        ],
-    },
-    {
-        title: "2. How Your Data is Used",
-        content: "This data is used exclusively within the app to calculate cycle predictions, display your personal calendar, and provide personalized cycle-aware food and energy suggestions.",
-        list: null,
-    },
-    {
-        title: "3. Strictly Local Storage (No Collection)",
-        content: "Your data never leaves your device. No accounts, no cloud. The developer does not collect, transmit, sync, or store any of your personal or health data on external servers. Because we do not have access to your data, we cannot and do not share or sell it to any third parties.",
-        list: null,
-    },
-    {
-        title: "4. Data Deletion",
-        content: "You are in complete control of your data. You can instantly delete all health and cycle data by tapping \"Reset all data\" in the app's Settings menu, or by simply uninstalling the application from your device.",
-        list: null,
-    },
-    {
-        title: "5. Third-Party Services & Analytics",
-        content: "Petal Chan contains zero analytics tracking (e.g., no Firebase, no Google Analytics) and zero advertising networks.",
-        list: null,
-    },
-    {
-        title: "6. Petal Pro & Payments",
-        content: "Advanced features are available as a one-time purchase. All transactions are handled securely by the official Google Play Store and Apple App Store billing systems. Petal Chan developers never see, collect, or store your real name or payment details.",
-        list: null,
-        highlight: true,
-    },
-    {
-        title: "7. Biometric Authentication (Face ID / Touch ID / Fingerprint)",
-        content: "Petal offers optional biometric authentication, Face ID and Touch ID on iOS, and fingerprint or face unlock on Android, to protect access to your data. We never collect, see, or store any biometric data. Authentication is handled entirely by your device's operating system (Apple's Secure Enclave on iOS, Android's BiometricPrompt API on Android). Your biometric data never leaves your device and is never accessible to Petal or its developers.",
-        list: null,
-    },
-    {
-        title: "8. Contact Us",
-        content: null,
-        contact: "petal.feedback@gmail.com",
-        contactPrefix: "If you have questions regarding your privacy, contact us at:",
-        list: null,
-    },
-];
+export const metadata: Metadata = {
+  title: "Privacy Policy | Petal Chan",
+  description:
+    "Petal Chan’s Privacy Policy explains local health-data storage, accounts, backups, exports, app lock, RevenueCat purchase handling, and production analytics.",
+  alternates: { canonical: `${SITE_URL}/privacypolicy/` },
+  openGraph: {
+    title: "Privacy Policy | Petal Chan",
+    description: "The formal privacy details for the Petal Chan app.",
+    url: `${SITE_URL}/privacypolicy/`,
+    type: "article",
+    images: [`${SITE_URL}/preview.png`],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | Petal Chan",
+    description: "The formal privacy details for the Petal Chan app.",
+    images: [`${SITE_URL}/preview.png`],
+  },
+};
 
-// ── Main Page ─────────────────────────────────────────────────────────────────
+const policySections = [
+  {
+    title: "1. Information processed by the app",
+    paragraphs: [
+      "Petal Chan can process information you choose to record, including period dates and flow, cycle settings, symptoms and severity, moods, energy, notes, period-product timers, basal body temperature (BBT), LH test results, cervical-fluid observations, optional profile details, and app preferences.",
+      "This health and cycle information is used inside the app to show your calendar and history, calculate estimates, create visualizations, and provide features you select.",
+    ],
+  },
+  {
+    title: "2. Local health-data storage",
+    paragraphs: [
+      "The current Petal Chan app stores health and cycle records locally as JSON using AsyncStorage. Petal Chan does not operate a health-data cloud backend that receives those records, and core tracking does not require an account, online sync, or a Petal Chan health-data server.",
+      "Health records are not separately encrypted at rest by Petal Chan. Your device passcode, operating-system security, physical access controls, and backup settings therefore remain important. SQLite or SQLCipher code may exist in development materials, but it is not the current live health-data store.",
+    ],
+  },
+  {
+    title: "3. Accounts and health-data transfers",
+    paragraphs: [
+      "Petal Chan does not require a Petal Chan account, email address, or login for core tracking. The app does not upload or sync your health and cycle records to a Petal Chan health-data server.",
+      "Data can leave the app when you choose to import, export, share, back up, or otherwise move it using your device or another service. Those actions are described below.",
+    ],
+  },
+  {
+    title: "4. Cycle and fertility estimates",
+    paragraphs: [
+      "Petal Chan calculates estimates locally using the cycle history and optional signals you record. Added information can update an estimate, but BBT, LH test results, cervical-fluid observations, and other logs do not make ovulation or fertility predictions certain.",
+      "Petal Chan is not a medical device, does not provide medical advice, and is not intended to diagnose a condition. It must not be relied on as contraception, to determine safe days, or as guaranteed conception guidance.",
+    ],
+  },
+  {
+    title: "5. PIN and biometric app lock",
+    paragraphs: [
+      "PIN lock helps control access through the Petal Chan interface. PIN verification and related attempt state use the device’s secure storage. If you enable biometric unlock, Face ID, Touch ID, fingerprint, or device face authentication is performed by the operating system; Petal Chan does not receive or store your biometric template.",
+      "Chan+ can also obscure the app preview in the app switcher. These controls protect access through the app, but they do not separately encrypt the health-record storage and do not change the privacy of exported files or device backups.",
+    ],
+  },
+  {
+    title: "6. Device backups",
+    paragraphs: [
+      "Android Auto Backup is disabled for Petal Chan. Petal Chan does not currently implement an explicit iOS iCloud-backup exclusion for the health-data storage, so iOS backup behavior depends on your Apple device, operating system, and account settings.",
+      "A device or cloud backup is controlled by the relevant operating-system or backup provider. Review those settings if you do not want app data included in a backup.",
+    ],
+  },
+  {
+    title: "7. Imports and CSV exports",
+    paragraphs: [
+      "Imports are processed so the selected information can be added to Petal Chan’s local records. Full CSV export is available so you can take your data with you.",
+      "CSV exports are plaintext, ordinary files. On native apps, Petal Chan creates the CSV in app cache and opens the system share sheet. The file is not encrypted by Petal Chan, and the app does not explicitly delete that cached file after the share flow. On the web, the CSV downloads as a normal browser file.",
+      "Once you save or share an exported copy outside Petal Chan, that copy is outside the app’s sandbox and its privacy depends on the destination you choose.",
+    ],
+  },
+  {
+    title: "8. Chan+ purchases and RevenueCat",
+    paragraphs: [
+      "Chan+ is a one-time in-app purchase. Apple or Google processes the storefront payment under its own terms and privacy practices. Petal Chan also uses RevenueCat to retrieve offerings, coordinate purchase handling and validation, check Chan+ entitlements, and restore purchases.",
+      "RevenueCat may process purchase, storefront, device, and entitlement information needed for those functions. Petal Chan does not send your menstrual-cycle history, BBT logs, symptoms, moods, notes, or other health and cycle records to RevenueCat for purchase handling. Petal Chan’s developer does not receive your full payment-card details.",
+    ],
+    highlight: true,
+  },
+  {
+    title: "9. Analytics and advertising",
+    paragraphs: [
+      "Production Petal Chan builds do not use PostHog analytics and do not send Petal Chan production analytics events to PostHog. Code associated with development or tooling is not active in final App Store or Google Play builds.",
+      "Petal Chan does not include an advertising network. Purchase and storefront systems may still process the non-health information required to provide purchases and restores, as described above.",
+    ],
+  },
+  {
+    title: "10. Deleting data",
+    paragraphs: [
+      "You can delete health and cycle records by using Reset all data in Petal Chan’s settings. Uninstalling the app removes its local app data subject to your operating system and any backups it maintains.",
+      "Resetting or uninstalling Petal Chan does not delete copies you previously exported, shared, downloaded, or stored elsewhere. Those copies must be deleted from their destinations separately.",
+    ],
+  },
+  {
+    title: "11. Contact",
+    paragraphs: [
+      `Questions about this policy or Petal Chan’s privacy practices can be sent to ${CONTACT.supportEmail}.`,
+    ],
+  },
+] as const;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Petal Chan", item: `${SITE_URL}/` },
+    { "@type": "ListItem", position: 2, name: "Privacy Policy", item: `${SITE_URL}/privacypolicy/` },
+  ],
+};
+
 export default function PrivacyPolicyPage() {
-    const confettiRef = useRef<ConfettiRef>(null);
+  return (
+    <div className="relative min-h-screen overflow-x-hidden bg-zinc-50 text-zinc-900">
+      <JsonLd data={breadcrumbSchema} />
+      <DottedSurface className="opacity-35" />
+      <SiteHeader />
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            confettiRef.current?.fire({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.3 },
-                colors: ["#f472b6", "#ec4899", "#fbcfe8", "#ffffff", "#a855f7"],
-            });
-        }, 600);
-        return () => clearTimeout(timer);
-    }, []);
+      <main className="relative z-10">
+        <header className="mx-auto max-w-3xl px-6 pb-14 pt-16 text-center md:pt-24">
+          <span className="inline-flex rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-pink-500 shadow-sm">Formal privacy details</span>
+          <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+            Privacy, explained <span className="text-pink-500">precisely.</span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-zinc-600">
+            This policy describes how the Petal Chan app handles health records, purchases, exports, backups, and access controls.
+          </p>
+          <p className="mt-4 text-sm text-zinc-400">Last updated: August 29, 2026</p>
+          <p className="mt-5 text-sm text-zinc-500">
+            Prefer the plain-language version? <Link href="/privacy/" className="font-medium text-pink-500 underline decoration-pink-200 underline-offset-4">Read How Privacy Works</Link>.
+          </p>
+        </header>
 
-    return (
-        <div className="relative min-h-screen bg-zinc-50 overflow-x-hidden">
-            <DottedSurface />
-
-            {/* ── Top nav ──────────────────────────────────────────────── */}
-            <nav className="relative z-10 max-w-3xl mx-auto px-6 pt-8 pb-2 flex items-center gap-3">
-                <Link href="/" className="flex items-center gap-2 group">
-                    <Image
-                        src="/petallogo.png"
-                        alt="Petal"
-                        width={32}
-                        height={32}
-                        className="object-contain drop-shadow-[0_0_8px_rgba(244,114,182,0.5)] group-hover:scale-110 transition-transform"
-                    />
-                    <span className="font-bold text-lg text-zinc-900 tracking-tight">Petal Chan</span>
-                </Link>
-                <span className="text-zinc-400 text-sm ml-2">/ Privacy Policy</span>
-            </nav>
-
-            {/* ── Hero ─────────────────────────────────────────────────── */}
-            <main>
-            <div className="relative z-10 max-w-3xl mx-auto px-6 pt-16 pb-12 text-center">
-                {/* Confetti canvas */}
-                <Confetti
-                    ref={confettiRef}
-                    className="absolute inset-0 z-0 w-full h-full pointer-events-none"
-                    manualstart={true}
-                />
-
-                {/* Hero content — NO initial opacity:0 so it renders even if JS fails */}
-                <div className="relative z-10">
-                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/15 border border-pink-500/30 text-pink-400 text-xs font-medium mb-6">
-                        Privacy First — always
-                    </span>
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight mb-4 mt-4">
-                        Your data stays on<br />
-                        <span className="text-pink-400">your device.</span>
-                    </h1>
-                    <p className="text-zinc-600 text-lg max-w-lg mx-auto mt-4">
-                        Your health data is yours alone. Petal Chan is built with a privacy-by-design philosophy so your data never leaves your device.
-                    </p>
-                    <p className="text-zinc-400 text-sm mt-4">Last Updated: April 9, 2026</p>
-                </div>
-            </div>
-
-            {/* ── Policy Content ───────────────────────────────────────── */}
-            <div className="relative z-10 max-w-3xl mx-auto px-6 pb-24">
-                {/* Sections — whileInView is safe; it only animates FROM visible */}
-                <div className="space-y-4">
-                    {sections.map((section, i) => (
-                        <motion.div
-                            key={section.title}
-                            initial={{ opacity: 1, y: 0 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.1 }}
-                            transition={{ duration: 0.4, delay: i * 0.03 }}
-                            className={`rounded-2xl border backdrop-blur-sm p-6 md:p-8 ${section.highlight
-                                    ? "border-pink-500/30 bg-pink-500/5"
-                                    : "border-zinc-200/60 bg-zinc-100/50"
-                                }`}
-                        >
-                            <BlurIn
-                                word={section.title}
-                                className={`text-xl md:text-2xl mb-4 ${section.highlight ? "text-pink-300" : "text-zinc-900"}`}
-                                duration={0.6}
-                            />
-
-                            {section.content && (
-                                <p className="text-zinc-700 leading-relaxed mb-4">
-                                    {section.content}
-                                </p>
-                            )}
-
-                            {section.title.startsWith("2.") && (
-                                <p className="text-zinc-500 text-sm leading-relaxed">
-                                    Discover all the <Link href="/#features" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">features Petal Chan offers</Link> — all running locally on your device.
-                                </p>
-                            )}
-
-                            {section.title.startsWith("6.") && (
-                                <p className="text-zinc-500 text-sm leading-relaxed mt-2">
-                                    See what users say about the value of Chan+ in our <Link href="/reviews/" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">reviews</Link>.
-                                </p>
-                            )}
-
-                            {section.list && (
-                                <ul className="space-y-2.5 mt-2">
-                                    {section.list.map((item, j) => (
-                                        <li key={j} className="flex gap-3 text-zinc-600">
-                                            <span className="text-pink-500 mt-1 shrink-0">▸</span>
-                                            <span className="leading-relaxed">
-                                                {item.label && (
-                                                    <strong className="text-zinc-800 font-semibold">
-                                                        {item.label}:{" "}
-                                                    </strong>
-                                                )}
-                                                {item.text}
-                                            </span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-
-                            {section.contact && (
-                                <div className="mt-2">
-                                    <p className="text-zinc-700 leading-relaxed mb-3">
-                                        {section.contactPrefix}
-                                    </p>
-                                    <a
-                                        href={`mailto:${section.contact}`}
-                                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-500/15 border border-pink-500/30 text-pink-400 font-medium hover:bg-pink-500/25 transition-colors"
-                                    >
-                                        ✉ {section.contact}
-                                    </a>
-                                </div>
-                            )}
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Footer */}
-                <div className="mt-12 pt-8 border-t border-zinc-200/60 text-center">
-                    <p className="text-zinc-400 text-sm">© 2026 Petal Chan. All rights reserved.</p>
-                    <p className="text-zinc-500 text-sm mt-4">Still have questions? Visit our <Link href="/#faq" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">FAQ</Link> for answers.</p>
-                    <Link
-                        href="/"
-                        className="inline-flex items-center gap-2 mt-4 text-sm text-zinc-500 hover:text-pink-400 transition-colors"
-                    >
-                        ← Back to home
-                    </Link>
-                </div>
-            </div>
-            </main>
+        <div className="mx-auto max-w-3xl space-y-4 px-6 pb-24">
+          {policySections.map((section) => (
+            <section
+              key={section.title}
+              aria-labelledby={`policy-${section.title.split(".")[0]}`}
+              className={`rounded-2xl border p-6 shadow-sm backdrop-blur-sm md:p-8 ${"highlight" in section && section.highlight ? "border-pink-300 bg-pink-50/90" : "border-pink-200/70 bg-white/80"}`}
+            >
+              <h2 id={`policy-${section.title.split(".")[0]}`} className="text-xl font-bold tracking-tight md:text-2xl">{section.title}</h2>
+              <div className="mt-4 space-y-3">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="leading-relaxed text-zinc-600">{paragraph}</p>
+                ))}
+              </div>
+              {section.title.startsWith("11.") && (
+                <a href={`mailto:${CONTACT.supportEmail}`} className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-pink-500 px-4 py-2 font-semibold text-white shadow-sm hover:bg-pink-600">
+                  {CONTACT.supportEmail}
+                </a>
+              )}
+            </section>
+          ))}
         </div>
-    );
+      </main>
+
+      <div className="relative z-10"><SiteFooter /></div>
+    </div>
+  );
 }

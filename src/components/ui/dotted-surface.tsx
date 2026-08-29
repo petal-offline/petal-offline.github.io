@@ -11,17 +11,9 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
     const { theme } = useTheme();
 
     const containerRef = useRef<HTMLDivElement>(null);
-    const sceneRef = useRef<{
-        scene: THREE.Scene;
-        camera: THREE.PerspectiveCamera;
-        renderer: THREE.WebGLRenderer;
-        particles: THREE.Points[];
-        animationId: number;
-        count: number;
-    } | null>(null);
-
     useEffect(() => {
         if (!containerRef.current) return;
+        const container = containerRef.current;
 
         const SEPARATION = 150;
         const AMOUNTX = 40;
@@ -42,11 +34,11 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
             alpha: true,
             antialias: true,
         });
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(0x000000, 0);
 
-        containerRef.current.appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
 
         const geometry = new THREE.BufferGeometry();
         const positions: number[] = [];
@@ -84,11 +76,9 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
         scene.add(points);
 
         let count = 0;
-        let animationId: number = 0;
+        let animationId = 0;
 
-        const animate = () => {
-            animationId = requestAnimationFrame(animate);
-
+        const drawFrame = () => {
             const positionAttribute = geometry.attributes.position;
             const posArr = positionAttribute.array as Float32Array;
 
@@ -108,6 +98,11 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
             count += 0.05;
         };
 
+        const animate = () => {
+            drawFrame();
+            animationId = requestAnimationFrame(animate);
+        };
+
         const handleResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -115,37 +110,28 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
         };
 
         window.addEventListener("resize", handleResize);
-        animate();
-
-        sceneRef.current = {
-            scene,
-            camera,
-            renderer,
-            particles: [points],
-            animationId,
-            count,
-        };
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            drawFrame();
+        } else {
+            animate();
+        }
 
         return () => {
             window.removeEventListener("resize", handleResize);
-            if (sceneRef.current) {
-                cancelAnimationFrame(sceneRef.current.animationId);
-                sceneRef.current.scene.traverse((object) => {
-                    if (object instanceof THREE.Points) {
-                        object.geometry.dispose();
-                        if (Array.isArray(object.material)) {
-                            object.material.forEach((m) => m.dispose());
-                        } else {
-                            object.material.dispose();
-                        }
+            cancelAnimationFrame(animationId);
+            scene.traverse((object) => {
+                if (object instanceof THREE.Points) {
+                    object.geometry.dispose();
+                    if (Array.isArray(object.material)) {
+                        object.material.forEach((item) => item.dispose());
+                    } else {
+                        object.material.dispose();
                     }
-                });
-                sceneRef.current.renderer.dispose();
-                if (containerRef.current && sceneRef.current.renderer.domElement) {
-                    containerRef.current.removeChild(
-                        sceneRef.current.renderer.domElement
-                    );
                 }
+            });
+            renderer.dispose();
+            if (renderer.domElement.parentNode === container) {
+                container.removeChild(renderer.domElement);
             }
         };
     }, [theme]);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface TypingAnimationProps {
@@ -14,14 +15,22 @@ export function TypingAnimation({
     duration = 80,
     className,
 }: TypingAnimationProps) {
-    const [displayedText, setDisplayedText] = useState<string>("");
-    const [i, setI] = useState<number>(0);
+    const characters = Array.from(text);
+    const [revealedCharacters, setRevealedCharacters] = useState(characters.length);
+    const shouldReduceMotion = useReducedMotion();
 
     useEffect(() => {
+        if (shouldReduceMotion) {
+            setRevealedCharacters(characters.length);
+            return;
+        }
+
+        let index = 0;
+        setRevealedCharacters(0);
         const typingEffect = setInterval(() => {
-            if (i < text.length) {
-                setDisplayedText(text.substring(0, i + 1));
-                setI(i + 1);
+            if (index < characters.length) {
+                index += 1;
+                setRevealedCharacters(index);
             } else {
                 clearInterval(typingEffect);
             }
@@ -30,16 +39,23 @@ export function TypingAnimation({
         return () => {
             clearInterval(typingEffect);
         };
-    }, [duration, i, text]);
+    }, [characters.length, duration, shouldReduceMotion, text]);
 
     return (
         <h1
+            aria-label={text}
             className={cn(
-                "font-display text-left text-4xl font-bold leading-tight tracking-tight drop-shadow-sm",
+                "relative font-display text-left text-4xl font-bold leading-tight tracking-tight drop-shadow-sm",
                 className
             )}
         >
-            {displayedText ? displayedText : text}
+            <span aria-hidden="true">
+                {characters.map((character, index) => (
+                    <span key={`${character}-${index}`} style={{ opacity: index < revealedCharacters ? 1 : 0 }}>
+                        {character}
+                    </span>
+                ))}
+            </span>
         </h1>
     );
 }

@@ -173,8 +173,12 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationFrameId: number;
-    let gridParams: ReturnType<typeof setupCanvas>;
+    let animationFrameId = 0;
+    const shouldReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const initialWidth = width || container.clientWidth;
+    const initialHeight = height || container.clientHeight;
+    setCanvasSize({ width: initialWidth, height: initialHeight });
+    let gridParams = setupCanvas(canvas, initialWidth, initialHeight);
 
     const updateCanvasSize = () => {
       const newWidth = width || container.clientWidth;
@@ -182,9 +186,6 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       setCanvasSize({ width: newWidth, height: newHeight });
       gridParams = setupCanvas(canvas, newWidth, newHeight);
     };
-
-    updateCanvasSize();
-
     let lastTime = 0;
     const animate = (time: number) => {
       if (!isInView) return;
@@ -221,7 +222,18 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
 
     intersectionObserver.observe(canvas);
 
-    if (isInView) {
+    if (shouldReduceMotion) {
+      drawGrid(
+        ctx,
+        canvas.width,
+        canvas.height,
+        gridParams.cols,
+        gridParams.rows,
+        gridParams.squares,
+        gridParams.textMask,
+        gridParams.dpr,
+      );
+    } else if (isInView) {
       animationFrameId = requestAnimationFrame(animate);
     }
 

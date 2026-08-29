@@ -113,8 +113,10 @@ export function PixelCanvas({ colors, gap = 5, speed = 30, className }: PixelCan
     const card = wrapRef.current?.parentElement;
     const handleEnter = () => animate("appear");
     const handleLeave = () => animate("disappear");
-    card?.addEventListener("mouseenter", handleEnter);
-    card?.addEventListener("mouseleave", handleLeave);
+    if (!reducedMotionRef.current) {
+      card?.addEventListener("mouseenter", handleEnter);
+      card?.addEventListener("mouseleave", handleLeave);
+    }
     return () => {
       resizeObserver.disconnect();
       cancelAnimationFrame(animationRef.current);

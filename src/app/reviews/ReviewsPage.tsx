@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PixelCanvas } from "@/components/ui/pixel-canvas";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { STORE_LINKS } from "@/lib/site";
 
 interface Review { text: string; name: string; role: string; image: string; bgColor?: string; stars: number | null; }
 
@@ -49,11 +52,11 @@ const REDDIT: Review[] = [
 
 // ── Platform nav cards (pixel hover, scroll-to-section) ───────────────────────
 const NAV_PLATFORMS = [
-  { id: "playstore",  label: "Google Play", sub: "17 reviews · ⭐ 5.0", pixels: ["#E55B81","#EF8BAA","#F5B8CB"],
-    icon: <Image src="/play_icon.png" alt="Google Play" width={28} height={28} className="object-contain" /> },
-  { id: "appstore",  label: "App Store",   sub: "1 review · ⭐ 5.0",  pixels: ["#8B7FC7","#A99FD8","#C8C2E9"],
-    icon: <Image src="/apple.png"     alt="App Store"   width={26} height={26} className="object-contain brightness-0" /> },
-  { id: "reddit",    label: "Reddit",      sub: "11 posts",            pixels: ["#E55B81","#8B7FC7","#F5B8CB"],
+  { id: "playstore",  label: "Google Play", sub: "Read selected reviews", pixels: ["#E55B81","#EF8BAA","#F5B8CB"],
+    icon: <Image src="/play_icon.png" alt="Google Play" width={137} height={150} className="h-7 w-auto object-contain" /> },
+  { id: "appstore",  label: "App Store",   sub: "Read selected reviews",  pixels: ["#8B7FC7","#A99FD8","#C8C2E9"],
+    icon: <Image src="/apple.png"     alt="App Store"   width={842} height={1000} className="h-[26px] w-auto object-contain brightness-0" /> },
+  { id: "reddit",    label: "Reddit",      sub: "Read selected posts",            pixels: ["#E55B81","#8B7FC7","#F5B8CB"],
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF4500">
         <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
@@ -72,13 +75,13 @@ function PlatformNavGrid() {
           key={p.id}
           onClick={() => scrollTo(p.id)}
           aria-label={`Jump to ${p.label} reviews`}
-          className="group relative flex flex-col items-center justify-center gap-2.5 bg-white hover:bg-white/95 px-4 py-8 cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E55B81]"
+          className="group relative flex flex-col items-center justify-center gap-2.5 bg-white hover:bg-white/95 px-4 py-8 cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
         >
           <PixelCanvas colors={p.pixels} gap={6} speed={25} />
           <div className="relative z-10 w-11 h-11 flex items-center justify-center rounded-xl bg-zinc-50 border border-zinc-100 group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
             {p.icon}
           </div>
-          <p className="relative z-10 font-bold text-sm text-zinc-900 group-hover:text-[#E55B81] transition-colors duration-200">{p.label}</p>
+          <p className="relative z-10 font-bold text-sm text-zinc-900 group-hover:text-pink-500 transition-colors duration-200">{p.label}</p>
           <p className="relative z-10 text-xs text-zinc-400">{p.sub}</p>
         </button>
       ))}
@@ -89,11 +92,7 @@ function PlatformNavGrid() {
 // ── Review card ───────────────────────────────────────────────────────────────
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <article
-      itemScope
-      itemType="https://schema.org/Review"
-      className="bg-white border border-zinc-100 rounded-2xl p-5 shadow-sm"
-    >
+    <article className="bg-white border border-zinc-100 rounded-2xl p-5 shadow-sm">
       {review.stars !== null && (
         <div className="flex gap-0.5 mb-2" aria-label={`${review.stars} out of 5 stars`}>
           {Array.from({ length: review.stars }).map((_, i) => (
@@ -101,14 +100,14 @@ function ReviewCard({ review }: { review: Review }) {
           ))}
         </div>
       )}
-      <blockquote itemProp="reviewBody" className="text-zinc-600 text-sm leading-relaxed m-0 mb-4">
+      <blockquote className="text-zinc-600 text-sm leading-relaxed m-0 mb-4">
         &quot;{review.text}&quot;
       </blockquote>
-      <footer className="flex items-center gap-3" itemProp="author" itemScope itemType="https://schema.org/Person">
-        <img src={review.image} alt={review.name} width={36} height={36}
+      <footer className="flex items-center gap-3">
+        <Image src={review.image} alt="" width={36} height={36}
           className="w-9 h-9 rounded-full object-cover ring-2 ring-pink-100 flex-shrink-0" style={{ backgroundColor: review.bgColor, padding: "4px" }} />
         <div>
-          <cite className="not-italic font-semibold text-zinc-900 text-sm block" itemProp="name">{review.name}</cite>
+          <cite className="not-italic font-semibold text-zinc-900 text-sm block">{review.name}</cite>
           <span className="text-xs text-zinc-400">{review.role}</span>
         </div>
       </footer>
@@ -118,14 +117,16 @@ function ReviewCard({ review }: { review: Review }) {
 
 // ── Scrolling column ──────────────────────────────────────────────────────────
 function ScrollColumn({ reviews, duration = 20, className }: { reviews: Review[]; duration?: number; className?: string }) {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <div className={`overflow-hidden w-full max-w-xs ${className ?? ""}`} aria-hidden="true">
+    <div className={`overflow-hidden w-full max-w-xs ${className ?? ""}`} aria-hidden="true" data-nosnippet>
       <motion.div
-        animate={{ translateY: "-50%" }}
-        transition={{ duration, repeat: Infinity, ease: "linear", repeatType: "loop" }}
+        animate={shouldReduceMotion ? undefined : { translateY: "-50%" }}
+        transition={shouldReduceMotion ? undefined : { duration, repeat: Infinity, ease: "linear", repeatType: "loop" }}
         className="flex flex-col gap-4 pb-4"
       >
-        {[0, 1].map((idx) => (
+        {(shouldReduceMotion ? [0] : [0, 1]).map((idx) => (
           <React.Fragment key={idx}>
             {reviews.map((r, i) => <ReviewCard key={`${idx}-${i}`} review={r} />)}
           </React.Fragment>
@@ -147,22 +148,17 @@ function PlatformSection({
     <section
       id={id}
       aria-label={`${heading} reviews`}
-      itemScope
-      itemType="https://schema.org/SoftwareApplication"
       className="scroll-mt-8 mb-24"
     >
-      <meta itemProp="name" content="Petal Chan" />
-      <meta itemProp="applicationCategory" content="HealthApplication" />
-
       <div className="text-center mb-10">
-        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-pink-50 text-[#E55B81] border border-pink-100 mb-3">
+        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-pink-50 text-pink-500 border border-pink-100 mb-3">
           {badge}
         </span>
         <h2 className="text-2xl md:text-3xl font-bold text-zinc-900">{heading}</h2>
       </div>
 
       {singleCard ? (
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto" aria-hidden="true" data-nosnippet>
           <ReviewCard review={reviews[0]} />
         </div>
       ) : (
@@ -173,16 +169,14 @@ function PlatformSection({
         </div>
       )}
 
-      {/* Screen-reader / AI-readable static list (visually hidden) */}
+      {/* One static, accessible copy; animated marquee clones are decorative. */}
       <div className="sr-only">
         {reviews.map((r, i) => (
-          <div key={i} itemScope itemType="https://schema.org/Review">
-            <span itemProp="reviewBody">{r.text}</span>
-            <span itemProp="author">{r.name}</span>
-            {r.stars && <span itemProp="reviewRating" itemScope itemType="https://schema.org/Rating">
-              <meta itemProp="ratingValue" content={String(r.stars)} />
-              <meta itemProp="bestRating" content="5" />
-            </span>}
+          <div key={i}>
+            <span>{r.text}</span>
+            <span>{r.name}</span>
+            <span>{r.role}</span>
+            {r.stars && <span>{r.stars} out of 5 stars</span>}
           </div>
         ))}
       </div>
@@ -194,65 +188,49 @@ function PlatformSection({
 export default function ReviewsPage() {
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg,#FFF5F8 0%,#FFFFFF 50%)" }}>
-      {/* Header */}
-      <header className="max-w-3xl mx-auto px-6 pt-16 pb-10 text-center">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-[#E55B81] transition-colors mb-6">
-          <Image src="/petallogo.png" alt="Petal Chan" width={20} height={20} className="rounded-lg" />
-          Petal Chan
-        </Link>
-        <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 tracking-tight mb-3">
-          What people are saying
-        </h1>
-        <p className="text-zinc-500 text-lg">
-          Real reviews from Google Play, App Store, and Reddit. See why users trust{" "}
-          <Link href="/" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">Petal Chan</Link>{" "}
-          for private cycle tracking.
-        </p>
-      </header>
+      <SiteHeader />
+      <main>
+        {/* Header */}
+        <header className="max-w-3xl mx-auto px-6 pt-16 pb-10 text-center md:pt-24">
+          <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 tracking-tight mb-3">
+            What people are saying
+          </h1>
+          <p className="text-zinc-500 text-lg">
+            Selected public reviews and posts from Google Play, the App Store, and Reddit—in the words people shared. See why people choose{" "}
+            <Link href="/" className="text-pink-500 hover:text-pink-600 underline underline-offset-2 transition-colors">Petal Chan</Link>{" "}
+            for private cycle tracking.
+          </p>
+        </header>
 
-      {/* Pixel nav grid */}
-      <div className="px-4">
-        <PlatformNavGrid />
-      </div>
-
-      {/* All platform sections */}
-      <main className="max-w-5xl mx-auto px-4">
-        <PlatformSection
-          id="playstore"
-          heading="Google Play Reviews"
-          badge="⭐ 5.0 · 17 reviews"
-          reviews={PLAY_STORE}
-        />
-        <PlatformSection
-          id="appstore"
-          heading="App Store Review"
-          badge="⭐ 5.0 · 1 review"
-          reviews={APP_STORE}
-          singleCard
-        />
-        <PlatformSection
-          id="reddit"
-          heading="Reddit Posts"
-          badge="11 posts"
-          reviews={REDDIT}
-        />
-      </main>
-
-      {/* CTA */}
-      <footer className="text-center py-16 px-4">
-        <p className="text-zinc-500 text-sm mb-5">Ready to join them? Learn about our <Link href="/privacypolicy/" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">privacy-first approach</Link>.</p>
-        <div className="flex flex-wrap justify-center gap-3">
-          <a href="https://play.google.com/store/apps/details?id=com.slyayush.petal" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 bg-[#E55B81] text-white font-semibold rounded-xl hover:bg-[#d44d72] transition-colors shadow-sm">
-            <Image src="/play_icon.png" alt="" width={18} height={18} /> Google Play
-          </a>
-          <a href="https://apps.apple.com/us/app/petal-offline-period-tracker/id6761746225" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 bg-zinc-900 text-white font-semibold rounded-xl hover:bg-zinc-800 transition-colors shadow-sm">
-            <Image src="/apple.png" alt="" width={16} height={16} /> App Store
-          </a>
+        {/* Pixel nav grid */}
+        <div className="px-4">
+          <PlatformNavGrid />
         </div>
-        <p className="text-zinc-400 text-sm mt-6">Have questions? Check out our <Link href="/#faq" className="text-pink-400 hover:text-pink-500 underline underline-offset-2 transition-colors">FAQ</Link>.</p>
-      </footer>
+
+        {/* All platform sections */}
+        <div className="max-w-5xl mx-auto px-4">
+          <PlatformSection id="playstore" heading="Google Play Reviews" badge="From Google Play" reviews={PLAY_STORE} />
+          <PlatformSection id="appstore" heading="App Store Review" badge="From the App Store" reviews={APP_STORE} singleCard />
+          <PlatformSection id="reddit" heading="Reddit Posts" badge="From Reddit" reviews={REDDIT} />
+        </div>
+
+        {/* CTA */}
+        <section aria-label="Download Petal Chan" className="text-center py-16 px-4">
+          <p className="text-zinc-500 text-sm mb-5">Ready to try it? Learn <Link href="/privacy/" className="text-pink-500 hover:text-pink-600 underline underline-offset-2 transition-colors">how privacy works</Link> first, if you like.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a href={STORE_LINKS.googlePlay} target="_blank" rel="noopener noreferrer"
+              className="flex min-h-11 items-center gap-2 rounded-xl bg-pink-500 px-5 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-pink-600">
+              <Image src="/play_icon.png" alt="" width={137} height={150} className="h-[18px] w-auto" /> Google Play
+            </a>
+            <a href={STORE_LINKS.appStore} target="_blank" rel="noopener noreferrer"
+              className="flex min-h-11 items-center gap-2 rounded-xl bg-zinc-900 px-5 py-3 font-semibold text-white shadow-sm transition-colors hover:bg-zinc-800">
+              <Image src="/apple.png" alt="" width={842} height={1000} className="h-4 w-auto" /> App Store
+            </a>
+          </div>
+          <p className="text-zinc-500 text-sm mt-6">Have questions? Check out our <Link href="/#faq" className="text-pink-500 hover:text-pink-600 underline underline-offset-2 transition-colors">FAQ</Link>.</p>
+        </section>
+      </main>
+      <SiteFooter />
     </div>
   );
 }
