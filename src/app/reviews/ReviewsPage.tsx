@@ -39,8 +39,8 @@ const APP_STORE: Review[] = [
 const REDDIT: Review[] = [
   { text: "You can use Petal Chan, it's relatively new but is packed with genuinely useful features, available on both Android and iOS, requires no login, and has no subscriptions. It has a one time unlock for some extra features, which is like the monthly price of Flo premium. I've been using it for more than a month now and it gets updated like every next few weeks or so, so the support is actually good as well.", name: "Possible-Ingenuity25", role: "r/womenintech", image: "/face-smile-svgrepo-com.svg", bgColor: "#10B981", stars: null },
   { text: "I have been using your app for around 2 months now, very excited to update!! I really like the UI it's very cutesey!! Also I got the pro plan!! It's nice that you made it just one time and not a subscription, I'm fed up with Flo!! Don't stop support for the app I really like it! Genuinely impressed by this app.", name: "Possible-Ingenuity25", role: "r/Periods", image: "/face-laugh-svgrepo-com.svg", bgColor: "#3B82F6", stars: null },
-  { text: "The UI is indeed really lovely, and the app is really simple and intuitive, making it really easy to use! Data privacy is a really important topic — you should be able to own your data. Thank you for your work, hope other people give it a try!!", name: "seni82", role: "r/Periods", image: "/face-smile-svgrepo-com.svg", bgColor: "#6366F1", stars: null },
-  { text: "Love the privacy edge. Great and straightforward. I love things created with people in mind. £7.99 one time fee is modest and great for an app like this — well done.", name: "emcemayo", role: "r/Periods", image: "/face-laugh-svgrepo-com.svg", bgColor: "#E55B81", stars: null },
+  { text: "The UI is indeed really lovely, and the app is really simple and intuitive, making it really easy to use! Data privacy is a really important topic. You should be able to own your data. Thank you for your work, hope other people give it a try!!", name: "seni82", role: "r/Periods", image: "/face-smile-svgrepo-com.svg", bgColor: "#6366F1", stars: null },
+  { text: "Love the privacy edge. Great and straightforward. I love things created with people in mind. £7.99 one time fee is modest and great for an app like this. Well done.", name: "emcemayo", role: "r/Periods", image: "/face-laugh-svgrepo-com.svg", bgColor: "#E55B81", stars: null },
   { text: "I found out about your app through ChatGPT haha. It looks interesting so I downloaded it and wow its niceee. Absolutely love the no ads and one time pay. Price is also affordable 🫶🏻", name: "solarizzy_", role: "r/Periods", image: "/face-smile-svgrepo-com.svg", bgColor: "#8B7FC7", stars: null },
   { text: "Looks really good 💜 I love the app. It's easy to use, I love it.", name: "Working_Map4918", role: "r/Periods", image: "/face-laugh-svgrepo-com.svg", bgColor: "#F5B8CB", stars: null },
   { text: "Downloaded!!! Can't wait to be able to buy the premium version!", name: "Juls_Rayne", role: "r/Periods", image: "/face-smile-svgrepo-com.svg", bgColor: "#F59E0B", stars: null },
@@ -196,7 +196,7 @@ export default function ReviewsPage() {
             What people are saying
           </h1>
           <p className="text-zinc-500 text-lg">
-            Selected public reviews and posts from Google Play, the App Store, and Reddit—in the words people shared. See why people choose{" "}
+            Selected public reviews and posts from Google Play, the App Store, and Reddit, in the words people shared. See why people choose{" "}
             <Link href="/" className="text-pink-500 hover:text-pink-600 underline underline-offset-2 transition-colors">Petal Chan</Link>{" "}
             for private cycle tracking.
           </p>

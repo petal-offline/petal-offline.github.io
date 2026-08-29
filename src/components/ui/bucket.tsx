@@ -305,7 +305,7 @@ const Bucket = () => {
           </div>
         </div>
 
-        {/* Petal logo — centered in box body below the lid */}
+        {/* Petal logo centered in the box body below the lid */}
         <div
           className="absolute pointer-events-none"
           style={{ left: "50%", top: "77%", transform: "translate(-50%, -50%)", zIndex: 21 }}

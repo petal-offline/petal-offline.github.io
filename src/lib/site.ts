@@ -57,36 +57,36 @@ export type HomeFaq = {
 export const HOME_FAQS: readonly HomeFaq[] = [
   {
     q: "What is Petal Chan?",
-    a: "Petal Chan is a privacy-first period and cycle tracker for iPhone and Android. Core tracking works without an account or a Petal Chan health-data server.",
+    a: "I built Petal Chan as a private period and cycle tracker for iPhone and Android. Core tracking works without an account or a Petal Chan health-data server.",
   },
   {
     q: "Where are my cycle records stored?",
-    a: "Your health and cycle records are stored locally inside the app on your device. Petal Chan does not upload or sync them to a Petal Chan health-data server.",
+    a: "I store your health and cycle records locally inside the app on your device. I do not upload or sync them to a Petal Chan health-data server.",
     link: { text: "How privacy works", href: "/privacy/" },
   },
   {
     q: "Is Petal Chan free?",
-    a: "Yes. The free app includes core cycle tracking, moods, notes, energy, multiple tracking modes, visualizers, PIN protection, imports, full CSV export, all six languages, and ordinary notifications. Chan+ adds deeper logging and privacy conveniences.",
+    a: "Yes. I keep core cycle tracking, moods, notes, energy, multiple tracking modes, visualizers, PIN protection, imports, full CSV export, all six languages, and ordinary notifications free. Chan+ adds deeper logging and a few extra privacy conveniences.",
     link: { text: "Compare Free and Chan+", href: "/features/" },
   },
   {
     q: "Is Chan+ a subscription?",
-    a: "No. Chan+ is a one-time purchase with no recurring subscription. Every new customer gets a 15-day trial, and the current local price is shown in the App Store or Google Play.",
+    a: "No. I made Chan+ a one-time purchase, not a recurring subscription. Every new customer gets a 15-day trial. Your App Store or Google Play listing shows the current local price.",
     link: { text: "See what Chan+ adds", href: "/features/#compare" },
   },
   {
     q: "How do cycle and fertility estimates work?",
-    a: "Petal Chan calculates estimates locally from the cycle history you record. Optional BBT, LH test, and cervical-fluid logs can add context, but they cannot make ovulation or fertility predictions certain.",
+    a: "Petal Chan calculates estimates locally from the cycle history you record. BBT, LH test, and cervical-fluid logs can add context, but I do not present them as certain ovulation or fertility predictions.",
     link: { text: "How predictions work", href: "/features/#predictions" },
   },
   {
     q: "Can Petal Chan be used as contraception?",
-    a: "No. Petal Chan is not a medical device, does not provide medical advice, and should not be used as contraception or to determine safe days.",
+    a: "No. I did not build Petal Chan as a medical device. It does not provide medical advice and should not be used as contraception or to determine safe days.",
     link: { text: "Read the medical-use limits", href: "/features/#medical-use" },
   },
   {
     q: "Who created Petal Chan?",
-    a: "Ayush Mishra created and develops Petal Chan. The original idea came from Sly, who wanted a cycle tracker where the person using it stayed in control of their information.",
+    a: "I'm Ayush Mishra. I created and develop Petal Chan. The original idea came from Sly, who wanted a cycle tracker where the person using it stayed in control of their information.",
     link: { text: "About Petal Chan", href: "/about/" },
   },
 ];

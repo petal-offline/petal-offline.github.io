@@ -20,7 +20,7 @@ export function SiteFooter() {
             <span className="font-bold text-zinc-900">Petal Chan</span>
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-zinc-500">
-            A privacy-first period and cycle tracker created and developed by Ayush Mishra.
+            I&apos;m Ayush Mishra. I created and develop Petal Chan.
           </p>
           <a
             href={`mailto:${CONTACT.supportEmail}`}
@@ -55,7 +55,7 @@ export function SiteFooter() {
       </div>
       <div className="mx-auto flex max-w-7xl flex-col gap-1 border-t border-pink-200/50 px-6 py-5 text-xs text-zinc-400 md:flex-row md:items-center md:justify-between md:px-12">
         <span>© {new Date().getFullYear()} ClearlySimple. All rights reserved.</span>
-        <span>Made with care for your privacy.</span>
+        <span>I made Petal Chan with care for your privacy.</span>
       </div>
     </footer>
   );

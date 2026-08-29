@@ -13,7 +13,7 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 md:px-12 md:py-7">
         <Link
           href="/"
-          className="flex min-h-11 items-center gap-2.5 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-4"
+          className="flex min-h-11 items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-4"
           aria-label="Petal Chan home"
         >
           <Image
@@ -32,7 +32,7 @@ export function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="inline-flex min-h-11 items-center rounded-xl px-2.5 text-sm font-medium text-zinc-500 transition-colors hover:bg-white/70 hover:text-pink-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 sm:px-3.5"
+              className="inline-flex min-h-11 items-center border-b border-transparent px-2.5 text-sm font-medium text-zinc-500 transition-colors hover:border-pink-300 hover:text-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 sm:px-3.5"
             >
               {item.label}
             </Link>

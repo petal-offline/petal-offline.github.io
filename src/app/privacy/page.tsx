@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Database, Download, LockKeyhole, Receipt, ShieldCheck, Smartphone } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "How Privacy Works | Petal Chan",
-    description: "A human explanation of Petal Chan’s local-first privacy model.",
+    description: "A plain explanation of Petal Chan's local-first privacy model.",
     images: [`${SITE_URL}/preview.png`],
   },
 };
@@ -35,21 +34,36 @@ const breadcrumbSchema = {
   ],
 };
 
-const essentials = [
+const privacyDetails = [
   {
-    icon: Smartphone,
-    title: "No account",
-    text: "Core tracking does not need a login, email address, online sync, or a Petal Chan health-data server.",
+    number: "01",
+    title: "Your cycle records",
+    text: "I store health and cycle records locally as app data on your device. I do not upload or sync them to a Petal Chan health-data server. The records are not separately encrypted at rest by Petal Chan, so your device passcode and operating-system protections matter.",
   },
   {
-    icon: Database,
-    title: "Records stay local",
-    text: "Health and cycle records are stored inside the app on your device. Petal Chan does not upload or sync them to a Petal Chan health-data backend.",
+    number: "02",
+    title: "Exports",
+    text: "Petal Chan exports an ordinary plaintext CSV file. On phones, the app creates it in the app cache and opens the system share sheet. I do not encrypt that exported file or explicitly delete the cached copy afterward. Once you send a copy elsewhere, its privacy depends on that destination.",
   },
   {
-    icon: ShieldCheck,
-    title: "No production analytics",
-    text: "Production Petal Chan builds do not send analytics events. The app also contains no advertising network.",
+    number: "03",
+    title: "Purchases",
+    text: "Apple or Google handles the payment. I use RevenueCat for offerings, purchase handling, entitlement checks, validation, and restores. RevenueCat receives the purchase information needed for those jobs, not your menstrual-cycle history.",
+  },
+  {
+    number: "04",
+    title: "App lock",
+    text: "PIN lock helps stop someone from casually opening the app. Chan+ can add biometric unlock and an app-switcher privacy screen. I use secure device storage for PIN verification and attempt state, not as the database for your health records.",
+  },
+  {
+    number: "05",
+    title: "Backups",
+    text: "Android Auto Backup is disabled. On iOS, I do not currently add an explicit iCloud-backup exclusion for the health-data store, so backup behavior depends on your Apple device and account settings.",
+  },
+  {
+    number: "06",
+    title: "Analytics and ads",
+    text: "Production builds do not send Petal Chan analytics events, and the app contains no advertising network. The formal Privacy Policy explains the development-tooling distinction.",
   },
 ];
 
@@ -60,121 +74,67 @@ export default function PrivacyPage() {
       <SiteHeader />
 
       <main>
-        <section className="mx-auto max-w-5xl px-6 pb-20 pt-16 text-center md:px-12 md:pb-28 md:pt-24">
-          <span className="inline-flex rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-pink-500 shadow-sm">
-            How privacy works
-          </span>
-          <h1 className="mx-auto mt-6 max-w-4xl text-balance text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-            Your cycle records are <span className="text-pink-500">not our business.</span>
+        <section className="mx-auto max-w-6xl px-6 pb-24 pt-20 md:px-12 md:pb-32 md:pt-28">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pink-400">How privacy works</p>
+          <h1 className="mt-5 max-w-5xl text-balance text-5xl font-bold leading-[1.04] tracking-tight md:text-7xl">
+            Privacy is the reason I built it this way.
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600">
-            Petal Chan is local-first: no account is required, and your health and cycle records are not uploaded or synced to a Petal Chan health-data server.
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-zinc-500 md:text-xl">
+            I do not require an account, and I do not run a health-data server that receives your period or cycle records. Here is the complete explanation, without pretending local storage is magic.
           </p>
-        </section>
 
-        <section aria-label="Privacy essentials" className="mx-auto grid max-w-6xl gap-4 px-6 pb-24 md:grid-cols-3 md:px-12">
-          {essentials.map((item) => {
-            const Icon = item.icon;
-            return (
-              <article key={item.title} className="rounded-2xl border border-pink-200 bg-white/80 p-7 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-pink-50 text-pink-500">
-                  <Icon aria-hidden="true" className="h-5 w-5" />
-                </div>
-                <h2 className="mt-5 text-xl font-bold">{item.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-500">{item.text}</p>
-              </article>
-            );
-          })}
-        </section>
-
-        <section aria-labelledby="boundaries-heading" className="border-y border-pink-200/60 bg-white/55 py-24">
-          <div className="mx-auto max-w-5xl px-6 md:px-12">
-            <div className="max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-pink-500">Clear boundaries</p>
-              <h2 id="boundaries-heading" className="mt-3 text-3xl font-bold tracking-tight md:text-4xl">What stays private—and what happens when you choose to share.</h2>
+          <dl className="mt-16 grid border-y border-pink-200 sm:grid-cols-3">
+            <div className="py-6 sm:border-r sm:border-pink-200 sm:pr-6">
+              <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">Account</dt>
+              <dd className="mt-2 text-2xl font-bold">Not required</dd>
             </div>
+            <div className="border-t border-pink-200 py-6 sm:border-r sm:border-t-0 sm:px-6">
+              <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">Cycle records</dt>
+              <dd className="mt-2 text-2xl font-bold">Stored locally</dd>
+            </div>
+            <div className="border-t border-pink-200 py-6 sm:border-t-0 sm:pl-6">
+              <dt className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">Production analytics</dt>
+              <dd className="mt-2 text-2xl font-bold">None</dd>
+            </div>
+          </dl>
+        </section>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              <article className="rounded-2xl border border-pink-200 bg-white p-7 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Download aria-hidden="true" className="h-5 w-5 text-pink-500" />
-                  <h3 className="text-xl font-bold">CSV exports are ordinary files</h3>
-                </div>
-                <p className="mt-4 leading-relaxed text-zinc-600">
-                  Petal Chan exports plaintext CSV so you can save or share your history wherever you choose. On phones, the app creates the file in its cache and opens the system share sheet; Petal does not encrypt that file or explicitly delete the cached copy afterward. On the web, it downloads like a normal browser file.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                  Once a copy leaves Petal Chan, its privacy depends on the destination you select.
-                </p>
-              </article>
-
-              <article className="rounded-2xl border border-pink-200 bg-white p-7 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Receipt aria-hidden="true" className="h-5 w-5 text-pink-500" />
-                  <h3 className="text-xl font-bold">Purchases are separate from health data</h3>
-                </div>
-                <p className="mt-4 leading-relaxed text-zinc-600">
-                  Apple or Google handles payment through its storefront. Petal Chan also uses RevenueCat for offerings, purchase handling, entitlement checks, and restores.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                  RevenueCat receives purchase and entitlement information needed for those functions—not your menstrual-cycle history.
-                </p>
-              </article>
-
-              <article className="rounded-2xl border border-pink-200 bg-white p-7 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <LockKeyhole aria-hidden="true" className="h-5 w-5 text-pink-500" />
-                  <h3 className="text-xl font-bold">What app lock protects</h3>
-                </div>
-                <p className="mt-4 leading-relaxed text-zinc-600">
-                  PIN lock helps stop someone from casually opening Petal Chan. Chan+ can add biometric unlock and a privacy screen in the app switcher. PIN verification and related attempt state use your device’s secure storage.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                  The lock controls access through the app. It does not separately encrypt the health-record storage or change the privacy of backups and exported files.
-                </p>
-              </article>
-
-              <article className="rounded-2xl border border-pink-200 bg-white p-7 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Smartphone aria-hidden="true" className="h-5 w-5 text-pink-500" />
-                  <h3 className="text-xl font-bold">Device storage and backups</h3>
-                </div>
-                <p className="mt-4 leading-relaxed text-zinc-600">
-                  Petal Chan stores health records locally as app data. Those records are not separately encrypted at rest by Petal Chan, so your device passcode and operating-system protections matter.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                  Android Auto Backup is disabled. Petal Chan does not currently add an explicit exclusion for the health-data store from iOS iCloud backups, so iOS backup behavior depends on your Apple device and account settings.
-                </p>
-              </article>
+        <section aria-labelledby="details-heading" className="border-t border-pink-200 bg-white/45">
+          <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-[0.7fr_1.3fr] md:px-12">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-pink-400">The details</p>
+              <h2 id="details-heading" className="mt-4 text-4xl font-bold tracking-tight">What stays where.</h2>
+            </div>
+            <div className="border-t border-pink-200">
+              {privacyDetails.map((detail) => (
+                <article key={detail.number} className="grid gap-4 border-b border-pink-200 py-8 sm:grid-cols-[3rem_0.7fr_1.3fr] sm:gap-6">
+                  <span className="text-xs font-semibold tabular-nums text-pink-400">{detail.number}</span>
+                  <h3 className="text-lg font-bold">{detail.title}</h3>
+                  <p className="leading-relaxed text-zinc-500">{detail.text}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
 
         <section aria-labelledby="questions-heading" className="mx-auto max-w-4xl px-6 py-24 md:px-12">
-          <div className="text-center">
-            <h2 id="questions-heading" className="text-3xl font-bold tracking-tight md:text-4xl">The short answers.</h2>
-            <p className="mt-3 text-zinc-500">Because privacy should not need a decoder ring.</p>
-          </div>
-          <div className="mt-10 divide-y divide-pink-200 overflow-hidden rounded-2xl border border-pink-200 bg-white/80 px-6 shadow-sm md:px-8">
-            <details className="group py-5">
+          <h2 id="questions-heading" className="text-4xl font-bold tracking-tight">The short answers.</h2>
+          <div className="mt-10 border-t border-pink-200">
+            <details className="group border-b border-pink-200 py-6">
               <summary className="cursor-pointer list-none font-semibold marker:hidden">Does Petal Chan have a health-data cloud?</summary>
-              <p className="mt-3 max-w-2xl leading-relaxed text-zinc-600">No. Petal Chan does not operate a health-data backend that receives your period or cycle records.</p>
+              <p className="mt-4 max-w-2xl leading-relaxed text-zinc-500">No. I do not operate a health-data backend that receives your period or cycle records.</p>
             </details>
-            <details className="group py-5">
-              <summary className="cursor-pointer list-none font-semibold marker:hidden">Does Petal Chan use analytics?</summary>
-              <p className="mt-3 max-w-2xl leading-relaxed text-zinc-600">No. Production builds do not include analytics or send Petal Chan production analytics events. The formal Privacy Policy explains the development-tooling distinction.</p>
-            </details>
-            <details className="group py-5">
+            <details className="group border-b border-pink-200 py-6">
               <summary className="cursor-pointer list-none font-semibold marker:hidden">Can I delete my records?</summary>
-              <p className="mt-3 max-w-2xl leading-relaxed text-zinc-600">Yes. You can reset app data from Petal Chan’s settings. Copies you previously exported or saved elsewhere need to be deleted from those destinations separately.</p>
+              <p className="mt-4 max-w-2xl leading-relaxed text-zinc-500">Yes. You can reset app data from Petal Chan&apos;s settings. Copies you exported or saved elsewhere need to be deleted from those destinations separately.</p>
             </details>
-            <details className="group py-5">
+            <details className="group border-b border-pink-200 py-6">
               <summary className="cursor-pointer list-none font-semibold marker:hidden">Does Petal Chan see my biometric data?</summary>
-              <p className="mt-3 max-w-2xl leading-relaxed text-zinc-600">No. Face ID, Touch ID, fingerprint, or device face unlock is handled by your operating system. Petal Chan receives only the result needed to unlock the app.</p>
+              <p className="mt-4 max-w-2xl leading-relaxed text-zinc-500">No. Your operating system handles Face ID, Touch ID, fingerprint, or device face unlock. Petal Chan receives only the result needed to unlock the app.</p>
             </details>
           </div>
-          <p className="mt-8 text-center text-sm text-zinc-500">
-            For the formal details, read the <Link href="/privacypolicy/" className="font-medium text-pink-500 underline decoration-pink-200 underline-offset-4">Privacy Policy</Link>.
+          <p className="mt-8 text-sm text-zinc-500">
+            For the formal details, read the <Link href="/privacypolicy/" className="font-medium text-zinc-900 underline decoration-pink-300 underline-offset-4">Privacy Policy</Link>.
           </p>
         </section>
       </main>

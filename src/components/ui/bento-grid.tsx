@@ -74,7 +74,7 @@ export function BentoCard({
             className={cn(
                 // Base card
                 "group relative overflow-hidden rounded-2xl border border-zinc-200/60 bg-zinc-100/60 backdrop-blur-sm p-6",
-                // Hover interaction — lift + glow
+                // Hover interaction: lift and glow
                 "transform-gpu transition-all duration-300",
                 "hover:border-pink-500/30 hover:shadow-[0_0_30px_-8px_rgba(244,114,182,0.2)]",
                 "hover:-translate-y-1",

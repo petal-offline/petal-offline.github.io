@@ -120,7 +120,7 @@ export const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         squares[i] = Math.random() * maxOpacity;
       }
 
-      // Precompute text mask once — avoids per-frame canvas allocation + getImageData
+      // Precompute the text mask to avoid per-frame canvas allocation and getImageData
       const textMask = new Uint8Array(cols * rows);
       if (text) {
         const maskCanvas = document.createElement("canvas");

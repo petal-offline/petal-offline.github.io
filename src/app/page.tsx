@@ -7,7 +7,6 @@ import { PlatformReviewCards } from "@/components/ui/platform-review-cards";
 import { HomeFaqItem } from "@/components/home-faq-item";
 import { HomeFooter } from "@/components/home-footer";
 import { JsonLd } from "@/components/json-ld";
-import { SiteHeader } from "@/components/site-header";
 import { HOME_FAQS, SITE_URL, STORE_LINKS } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -48,30 +47,37 @@ export default function Home() {
   return (
     <>
       <JsonLd data={faqSchema} />
-      <SiteHeader />
 
       <main>
-        {/* ── Hero ─────────────────────────────────────────────────────────── */}
-        <section className="relative flex min-h-[calc(100vh-84px)] items-center overflow-hidden">
+        {/* Hero */}
+        <section className="relative flex min-h-screen items-center overflow-hidden">
           <div className="w-full max-w-7xl mx-auto px-6 md:px-12 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
-            {/* Left column */}
             <div className="flex flex-col items-start gap-7">
-              {/* Headline */}
+              <div className="mb-2 flex items-center gap-3">
+                <Image
+                  src="/petallogo.png"
+                  alt="Petal Chan logo"
+                  width={44}
+                  height={44}
+                  className="rounded-xl object-contain drop-shadow-[0_0_10px_rgba(244,114,182,0.5)]"
+                  priority
+                />
+                <span className="text-2xl font-bold tracking-tight text-zinc-900">Petal Chan</span>
+              </div>
+
               <TypingAnimation
                 text="Your cycle, finally understood. Private by design, offline by default."
                 duration={65}
                 className="text-4xl md:text-5xl lg:text-[3.25rem] font-bold text-zinc-900 text-left leading-tight"
               />
 
-              {/* Subheadline */}
-              <p className="max-w-xl text-lg leading-relaxed text-zinc-600 md:text-xl">
-                Petal Chan is a privacy-first period and cycle tracker for iPhone and Android. Your health and cycle records stay in the app on your device—without an account or a Petal Chan health-data server.
+              <p className="-mt-2 max-w-lg text-lg leading-relaxed text-zinc-600 md:text-xl">
+                This stays between you and Petal Chan.
               </p>
 
-              {/* Pills */}
               <div className="flex flex-wrap gap-2">
-                {["Core tracking works offline", "No account needed", "Free to use"].map((pill) => (
+                {["No internet required", "No account needed"].map((pill) => (
                   <span
                     key={pill}
                     className="text-xs px-3 py-1 rounded-full bg-zinc-200/80 border border-zinc-300/50 text-zinc-600"
@@ -81,14 +87,13 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* CTA */}
               <div className="flex flex-wrap items-center gap-4 mt-2">
                 <CartoonButton
                   href={STORE_LINKS.googlePlay}
                   target="_blank"
                   rel="noopener noreferrer"
                   label="Get it on Google Play"
-                  color="bg-pink-500"
+                  color="bg-pink-400"
                   hasHighlight
                 >
                   <Image src="/play_icon.png" alt="" width={137} height={150} className="h-6 w-auto object-contain drop-shadow-sm" />
@@ -106,11 +111,10 @@ export default function Home() {
               </div>
 
               <p className="text-zinc-400 text-sm -mt-3">
-                Optional one-time Chan+ · 15-day trial for every new customer
+                Free to use · Works offline · No account required
               </p>
             </div>
 
-            {/* Right column: Tilted 3D mockup */}
             <div className="flex justify-center lg:justify-end items-center">
               <div className="relative" style={{ perspective: "1200px" }}>
                 <div
@@ -135,19 +139,19 @@ export default function Home() {
           </div>
         </section>
 
-      {/* ── Features ─────────────────────────────────────────────────────── */}
+      {/* Features */}
       <FeaturesSection />
 
-      {/* ── Reviews ──────────────────────────────────────────────────────── */}
+      {/* Reviews */}
       <PlatformReviewCards />
 
-      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
+      {/* FAQ */}
       <section id="faq" aria-label="Frequently asked questions" className="relative w-full max-w-3xl mx-auto px-6 md:px-12 pb-28">
         <div className="mb-10 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-3">
             Good questions.
           </h2>
-          <p className="text-zinc-500 text-base">Here are honest answers.</p>
+          <p className="text-zinc-500 text-base">I answer these as plainly as I can.</p>
         </div>
 
         <div className="rounded-2xl border border-zinc-200/60 bg-zinc-100/40 backdrop-blur-sm px-6 md:px-8">
@@ -158,7 +162,7 @@ export default function Home() {
       </section>
       </main>
 
-      {/* ── Footer ─────────────────────────────────────────────────────────── */}
+      {/* Footer */}
       <HomeFooter />
     </>
   );

@@ -33,7 +33,7 @@ export function HomeFooter() {
           <div className="flex flex-col">
             <span>© {new Date().getFullYear()} ClearlySimple. All rights reserved.</span>
             <span className="mt-0.5 text-zinc-500">
-              Created and developed by Ayush Mishra ·{" "}
+              I&apos;m Ayush Mishra. I created and develop Petal Chan. ·{" "}
               <a href={`mailto:${CONTACT.supportEmail}`} className="underline decoration-pink-200 underline-offset-4 transition-colors hover:text-pink-500">
                 {CONTACT.supportEmail}
               </a>

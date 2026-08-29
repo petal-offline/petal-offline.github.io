@@ -62,8 +62,8 @@ const config: Config = {
           200: "#F8D7E0",
           300: "var(--petal-pink)",
           400: "var(--petal-pink)",
-          500: "var(--petal-pink-strong)",
-          600: "#A9244D",
+          500: "var(--petal-pink)",
+          600: "var(--petal-pink)",
         },
         // ── Brand tokens ──────────────────────────────────────────────
         "surface-1": "hsl(var(--surface-1))",
