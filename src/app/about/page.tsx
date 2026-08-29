@@ -39,8 +39,8 @@ const personSchema = {
   "@type": "Person",
   "@id": `${SITE_URL}/about/#ayush-mishra`,
   name: "Ayush Mishra",
-  url: `${SITE_URL}/about/`,
-  sameAs: [CONTACT.creatorInstagram],
+  url: CONTACT.portfolio,
+  sameAs: [CONTACT.portfolio, CONTACT.creatorInstagram],
   jobTitle: "Creator and developer of Petal Chan",
 };
 
@@ -125,6 +125,9 @@ export default function AboutPage() {
               </a>
               <a href={CONTACT.creatorInstagram} target="_blank" rel="noopener noreferrer" className="flex min-h-16 items-center justify-between border-b border-pink-200 py-4 transition-colors hover:text-pink-400">
                 <span>My Instagram</span><span className="text-sm font-normal text-zinc-500">{CONTACT.creatorInstagramLabel}</span>
+              </a>
+              <a href={CONTACT.portfolio} target="_blank" rel="noopener noreferrer" className="flex min-h-16 items-center justify-between border-b border-pink-200 py-4 transition-colors hover:text-pink-400">
+                <span>My portfolio</span><span className="text-sm font-normal text-zinc-500">{CONTACT.portfolioLabel}</span>
               </a>
             </div>
           </div>

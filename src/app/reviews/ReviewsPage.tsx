@@ -4,7 +4,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { PixelCanvas } from "@/components/ui/pixel-canvas";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { STORE_LINKS } from "@/lib/site";
@@ -49,45 +48,6 @@ const REDDIT: Review[] = [
   { text: "You did great on this and your efforts show! Also offline, good job on this! 👏🏻", name: "slyyuh", role: "r/teenagers", image: "/face-laugh-svgrepo-com.svg", bgColor: "#6366F1", stars: null },
   { text: "This sounds really interesting! I'd be interested to know how other people feel about it.", name: "Ribonichigo", role: "r/degoogle", image: "/face-smile-svgrepo-com.svg", bgColor: "#E55B81", stars: null },
 ];
-
-// ── Platform nav cards (pixel hover, scroll-to-section) ───────────────────────
-const NAV_PLATFORMS = [
-  { id: "playstore",  label: "Google Play", sub: "Read selected reviews", pixels: ["#E55B81","#EF8BAA","#F5B8CB"],
-    icon: <Image src="/play_icon.png" alt="Google Play" width={137} height={150} className="h-7 w-auto object-contain" /> },
-  { id: "appstore",  label: "App Store",   sub: "Read selected reviews",  pixels: ["#8B7FC7","#A99FD8","#C8C2E9"],
-    icon: <Image src="/apple.png"     alt="App Store"   width={842} height={1000} className="h-[26px] w-auto object-contain brightness-0" /> },
-  { id: "reddit",    label: "Reddit",      sub: "Read selected posts",            pixels: ["#E55B81","#8B7FC7","#F5B8CB"],
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF4500">
-        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
-      </svg>
-    ) },
-];
-
-function PlatformNavGrid() {
-  const scrollTo = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  return (
-    <div className="grid grid-cols-3 gap-px bg-zinc-200/60 border border-zinc-200/60 rounded-2xl overflow-hidden max-w-2xl mx-auto mb-20 shadow-sm">
-      {NAV_PLATFORMS.map((p) => (
-        <button
-          key={p.id}
-          onClick={() => scrollTo(p.id)}
-          aria-label={`Jump to ${p.label} reviews`}
-          className="group relative flex flex-col items-center justify-center gap-2.5 bg-white hover:bg-white/95 px-4 py-8 cursor-pointer transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-        >
-          <PixelCanvas colors={p.pixels} gap={6} speed={25} />
-          <div className="relative z-10 w-11 h-11 flex items-center justify-center rounded-xl bg-zinc-50 border border-zinc-100 group-hover:scale-110 group-hover:shadow-md transition-all duration-300">
-            {p.icon}
-          </div>
-          <p className="relative z-10 font-bold text-sm text-zinc-900 group-hover:text-pink-500 transition-colors duration-200">{p.label}</p>
-          <p className="relative z-10 text-xs text-zinc-400">{p.sub}</p>
-        </button>
-      ))}
-    </div>
-  );
-}
 
 // ── Review card ───────────────────────────────────────────────────────────────
 function ReviewCard({ review }: { review: Review }) {
@@ -138,8 +98,8 @@ function ScrollColumn({ reviews, duration = 20, className }: { reviews: Review[]
 
 // ── Platform section ──────────────────────────────────────────────────────────
 function PlatformSection({
-  id, heading, badge, reviews, singleCard = false,
-}: { id: string; heading: string; badge: string; reviews: Review[]; singleCard?: boolean }) {
+  id, heading, source, reviews, singleCard = false,
+}: { id: string; heading: string; source: string; reviews: Review[]; singleCard?: boolean }) {
   const col1 = reviews.slice(0, Math.ceil(reviews.length / 3));
   const col2 = reviews.slice(Math.ceil(reviews.length / 3), Math.ceil((reviews.length * 2) / 3));
   const col3 = reviews.slice(Math.ceil((reviews.length * 2) / 3));
@@ -150,10 +110,8 @@ function PlatformSection({
       aria-label={`${heading} reviews`}
       className="scroll-mt-8 mb-24"
     >
-      <div className="text-center mb-10">
-        <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-pink-50 text-pink-500 border border-pink-100 mb-3">
-          {badge}
-        </span>
+      <div className="mb-10 border-t border-pink-200 pt-7 text-center">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-pink-400">{source}</p>
         <h2 className="text-2xl md:text-3xl font-bold text-zinc-900">{heading}</h2>
       </div>
 
@@ -202,16 +160,11 @@ export default function ReviewsPage() {
           </p>
         </header>
 
-        {/* Pixel nav grid */}
-        <div className="px-4">
-          <PlatformNavGrid />
-        </div>
-
         {/* All platform sections */}
-        <div className="max-w-5xl mx-auto px-4">
-          <PlatformSection id="playstore" heading="Google Play Reviews" badge="From Google Play" reviews={PLAY_STORE} />
-          <PlatformSection id="appstore" heading="App Store Review" badge="From the App Store" reviews={APP_STORE} singleCard />
-          <PlatformSection id="reddit" heading="Reddit Posts" badge="From Reddit" reviews={REDDIT} />
+        <div className="mx-auto max-w-5xl px-4 pt-8">
+          <PlatformSection id="playstore" heading="Google Play Reviews" source="Google Play" reviews={PLAY_STORE} />
+          <PlatformSection id="appstore" heading="App Store Review" source="App Store" reviews={APP_STORE} singleCard />
+          <PlatformSection id="reddit" heading="Reddit Posts" source="Reddit" reviews={REDDIT} />
         </div>
 
         {/* CTA */}

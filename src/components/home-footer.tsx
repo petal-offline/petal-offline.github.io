@@ -34,6 +34,10 @@ export function HomeFooter() {
             <span>© {new Date().getFullYear()} ClearlySimple. All rights reserved.</span>
             <span className="mt-0.5 text-zinc-500">
               I&apos;m Ayush Mishra. I created and develop Petal Chan. ·{" "}
+              <a href={CONTACT.portfolio} target="_blank" rel="noopener noreferrer" className="underline decoration-pink-200 underline-offset-4 transition-colors hover:text-pink-500">
+                My portfolio: {CONTACT.portfolioLabel}
+              </a>{" "}
+              ·{" "}
               <a href={`mailto:${CONTACT.supportEmail}`} className="underline decoration-pink-200 underline-offset-4 transition-colors hover:text-pink-500">
                 {CONTACT.supportEmail}
               </a>

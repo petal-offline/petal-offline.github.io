@@ -22,12 +22,22 @@ export function SiteFooter() {
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-zinc-500">
             I&apos;m Ayush Mishra. I created and develop Petal Chan.
           </p>
-          <a
-            href={`mailto:${CONTACT.supportEmail}`}
-            className="mt-3 inline-flex min-h-11 items-center text-sm font-medium text-pink-500 underline decoration-pink-200 underline-offset-4 hover:text-pink-600"
-          >
-            {CONTACT.supportEmail}
-          </a>
+          <div className="mt-3 flex flex-wrap gap-x-5 text-sm font-medium text-pink-500">
+            <a
+              href={CONTACT.portfolio}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center underline decoration-pink-200 underline-offset-4 hover:text-pink-600"
+            >
+              My portfolio: {CONTACT.portfolioLabel}
+            </a>
+            <a
+              href={`mailto:${CONTACT.supportEmail}`}
+              className="inline-flex min-h-11 items-center underline decoration-pink-200 underline-offset-4 hover:text-pink-600"
+            >
+              {CONTACT.supportEmail}
+            </a>
+          </div>
         </div>
 
         <nav aria-label="Footer navigation" className="grid content-start gap-2 text-sm">

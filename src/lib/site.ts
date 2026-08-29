@@ -9,6 +9,8 @@ export const STORE_LINKS = {
 
 export const CONTACT = {
   supportEmail: "help@petalchan.com",
+  portfolio: "https://clearlysimple.app",
+  portfolioLabel: "clearlysimple.app",
   productInstagram: "https://www.instagram.com/trypetalchan/",
   productInstagramLabel: "@trypetalchan",
   creatorInstagram: "https://www.instagram.com/ayushmishraog/",
